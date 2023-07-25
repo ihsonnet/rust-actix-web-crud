@@ -36,7 +36,7 @@ async fn delete(id: web::Path<i32>) -> Result<HttpResponse, CustomError> {
     Ok(HttpResponse::Ok().json(json!({ "deleted": deleted_employee })))
 }
 
-pub fn init_routes(config: &mut web::ServiceConfig) {
+pub fn init_employee_routes(config: &mut web::ServiceConfig) {
     config.service(find_all);
     config.service(find);
     config.service(create);

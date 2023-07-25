@@ -12,6 +12,7 @@ mod db;
 mod employees;
 mod error_handler;
 mod schema;
+mod accounts;
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
@@ -19,7 +20,7 @@ async fn main() -> std::io::Result<()> {
     db::init();
 
     let mut listenfd = ListenFd::from_env();
-    let mut server = HttpServer::new(|| App::new().configure(employees::init_routes));
+    let mut server = HttpServer::new(|| App::new().configure(employees::init_employee_routes).configure(accounts::init_account_routes));
 
     server = match listenfd.take_tcp_listener(0)? {
         Some(listener) => server.listen(listener)?,
