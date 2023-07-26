@@ -10,6 +10,7 @@ diesel::table! {
         schema_location -> Varchar,
         a_type -> Varchar,
         referred_type -> Varchar,
+        employee_id -> Int4,
     }
 }
 
@@ -23,6 +24,8 @@ diesel::table! {
         age -> Int4,
     }
 }
+
+diesel::joinable!(accounts -> employees (employee_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     accounts,

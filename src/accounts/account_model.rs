@@ -14,6 +14,7 @@ pub struct Account {
     pub schema_location: String,
     pub a_type: String,
     pub referred_type: String,
+    pub employee_id: i32
 }
 
 #[derive(Serialize, Deserialize, Queryable)]
@@ -26,6 +27,7 @@ pub struct Accounts {
     pub schema_location: String,
     pub a_type: String,
     pub referred_type: String,
+    pub employee_id: i32
 }
 
 impl Accounts {
@@ -39,6 +41,12 @@ impl Accounts {
         let conn = db::connection()?;
         let account = accounts::table.filter(accounts::id.eq(id)).first(&conn)?;
         Ok(account)
+    }
+
+    pub fn find_by_employee(employee_id: i32) -> Result<Vec<Self>, CustomError>  {
+        let conn = db::connection()?;
+        let accounts = accounts::table.filter(accounts::employee_id.eq(employee_id)).load::<Accounts>(&conn)?;
+        Ok(accounts)
     }
 
     pub fn create(account: Account) -> Result<Self, CustomError> {
@@ -76,6 +84,7 @@ impl Account {
             schema_location: account.schema_location,
             a_type: account.a_type,
             referred_type: account.referred_type,
+            employee_id: account.employee_id
         }
     }
 }

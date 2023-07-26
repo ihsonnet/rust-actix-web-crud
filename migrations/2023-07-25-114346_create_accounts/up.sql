@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS "accounts"
     "base_type" VARCHAR(255) NOT NULL,
     "schema_location" VARCHAR(255) NOT NULL,
     "a_type" VARCHAR(255) NOT NULL,
-    "referred_type" VARCHAR(255) NOT NULL
+    "referred_type" VARCHAR(255) NOT NULL,
+    "employee_id" SERIAL REFERENCES employees(id)
 )

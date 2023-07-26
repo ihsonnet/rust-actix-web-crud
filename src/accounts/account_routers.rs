@@ -15,6 +15,12 @@ async fn find(id: web::Path<i32>) -> Result<HttpResponse, CustomError> {
     Ok(HttpResponse::Ok().json(account))
 }
 
+#[get("/accountsByEmployee/{employee_id}")]
+async fn find_by_employee(employee_id: web::Path<i32>) -> Result<HttpResponse, CustomError> {
+    let accounts = web::block(|| Accounts::find_by_employee(employee_id.into_inner())).await.unwrap();
+    Ok(HttpResponse::Ok().json(accounts))
+}
+
 #[post("/accounts")]
 async fn create(account: web::Json<Account>) -> Result<HttpResponse, CustomError> {
     let account = Accounts::create(account.into_inner())?;
@@ -42,5 +48,6 @@ pub fn init_account_routes(config: &mut web::ServiceConfig) {
     config.service(create);
     config.service(update);
     config.service(delete);
+    config.service(find_by_employee);
 }
 
